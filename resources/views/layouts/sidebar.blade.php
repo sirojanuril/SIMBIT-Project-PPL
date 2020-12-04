@@ -42,7 +42,7 @@
            <a href="{{route('dashboard')}}" class="nav-link ">
              <i class="nav-icon fas fa-columns"></i>
              <p>
-               dashboard
+               Dashboard
              </p>
            </a>
         </li>
@@ -72,6 +72,25 @@
               <i class="nav-icon fas fa-credit-card"></i>             
               <p>
                Manajemen Keuangan
+             </p>
+           </a>
+        </li>
+        @endif
+        @if(auth()->user()->level == 'supplier')
+        <li class="nav-item">
+           <a href="/transaksi/supplier" class="nav-link ">
+              <i class="nav-icon fas fa-money-check-alt"></i>             
+              <p>
+               Transaksi
+             </p>
+           </a>
+        </li>
+        @elseif(auth()->user()->level == 'mitra')
+        <li class="nav-item">
+           <a href="/transaksi/mitra" class="nav-link ">
+              <i class="nav-icon fas fa-money-check-alt"></i>             
+              <p>
+               Transaksi
              </p>
            </a>
         </li>

@@ -45,4 +45,8 @@ class User extends Authenticatable
           return asset('images/'.$this->avatar);
       }
 
+    public function pesanan()
+      {
+        return $this->hasOne('App\Pesanan', 'user_id');
+      }
 }

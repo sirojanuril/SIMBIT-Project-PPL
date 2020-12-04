@@ -36,7 +36,7 @@ class HalamanController extends Controller
       if($request->has('cari')){
         $data_pengguna = \App\Pengguna::where('nama_lengkap','LIKE','%'.$request->cari.'%')->get();
       }else{
-        $data_pengguna = \App\Pengguna::all();
+        $data_pengguna = \App\Pengguna::latest()->paginate(10);
       }
       return view('halaman.datasupplier',['data_pengguna' => $data_pengguna]);
     }

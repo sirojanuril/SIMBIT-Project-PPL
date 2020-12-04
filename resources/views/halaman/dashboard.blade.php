@@ -3,10 +3,11 @@
 @section('title','Dashboard')
 
 @section('content')
+@if(auth()->user()->level == 'mitra')
 <div class="content">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-lg-6">
+      <div class="col-md-12">
         <div class="card">
           <div class="card-body">
            <!--  <h5 class="card-title">Card title</h5> -->
@@ -44,7 +45,7 @@
         </div><!-- /.card -->
       </div>
       <!-- /.col-md-6 -->
-      <div class="col-lg-6">
+<!--       <div class="col-lg-6">
         <div class="card">
           <div class="card-header">
             <h5 class="m-0">Featured</h5>
@@ -68,12 +69,52 @@
             <a href="#" class="btn btn-primary">Go somewhere</a>
           </div>
         </div>
-      </div>
+      </div> -->
       <!-- /.col-md-6 -->
     </div>
     <!-- /.row -->
   </div><!-- /.container-fluid -->
 </div>
+@else
+<?php
+  $transaksi  = \App\Transaksi::where('pengguna_id', Auth::user()->id)->first();
+  $pesanan = \App\Pesanan::where('transaksi_id', $transaksi['id'])->where('status', "Belum Diverifikasi")->get();
+  $penjualan = \App\Pesanan::where('transaksi_id', $transaksi['id'])->where('status', "Terverifikasi")->get();
+
+  if (!empty($pesanan)) 
+  {
+      $notif         = $pesanan->count();
+  }
+  
+  if (!empty($penjualan))
+  {
+    $notif_penjualan = $penjualan->count();
+  }
+?>
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box bg-grey">
+            <span class="info-box-icon bg-blue"><i class="fas fa-tag"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Penjualan</span>
+              <span class="info-box-number">{{ $notif_penjualan }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-red"><i class="fas fa-shopping-basket"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Pesanan</span>
+              <span class="info-box-number">{{ $notif }}</span>
+            </div>
+          </div>
+        </div>
+    </div> 
+</div>
+@endif
 @stop
 
 @section('chart')

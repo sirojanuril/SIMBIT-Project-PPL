@@ -38,4 +38,28 @@ class ProduksiController extends Controller
         ]);
 
     }
+
+    public function hasil_tempe(Request $request)
+    {
+        $request->validate([
+            'hasil_produksi'   => 'required',
+        ]);
+
+        $produksi = new Produksi;
+        $produksi->hasil_produksi           = $request->hasil_produksi;
+        $produksi->kedelai                  = 0.8*$request->hasil_produksi;
+        $produksi->ragi                     = 6*$request->hasil_produksi;
+        $produksi->hasil_produksi_bungkus   = 10*$request->hasil_produksi; //10 atau 12
+        $produksi->kadaluarsa               = date("Y-m-d");
+        $produksi->save();
+
+        return view('/produksi/hasil_tempe', [
+            'hasil_tempe'               => $produksi->hasil_produksi,
+            'kedelai'                   => $produksi->kedelai,
+            'hasil_ragi'                => $produksi->ragi, 
+            'hasil_tempe_perbungkus'    => $produksi->hasil_produksi_bungkus,
+            'kadaluarsa'                => $produksi->kadaluarsa
+        ]);
+    }
+
 }
