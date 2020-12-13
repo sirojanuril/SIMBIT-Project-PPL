@@ -40,10 +40,9 @@ Route::group(['middleware'=> ['auth:user,pengguna','ceklevel:mitra']], function(
   Route::get('/transaksi/mitra', 'TransaksiController@mitra');
   Route::get('/transaksi/riwayat', 'TransaksiController@riwayat');
   Route::get('/transaksi/beli/{id}', 'TransaksiController@transaksi'); 
+  Route::post('/transaksi/mitra/{id}', 'TransaksiController@beli'); 
   Route::get('/transaksi/upload_bukti/{id}', 'TransaksiController@upload_bukti');
-  Route::post('/transaksi/upload_bukti/{id}', 'TransaksiController@beli'); 
   Route::post('/transaksi/riwayat/{id}', 'TransaksiController@bukti');
-  Route::delete('/transaksi/riwayat/{id}', 'TransaksiController@hapus_pesanan');
 
 });
 

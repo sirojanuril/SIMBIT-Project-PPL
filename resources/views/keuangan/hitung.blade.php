@@ -7,31 +7,24 @@
 <div class="content">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-sm-12">
+      <div class="col">
         <div class="card">
           <div class="card-header">
-            <h4 style="color: #acc3d2;">BIAYA PRODUKSI</h4>
-            <form class="form-horizontal" action="{{ url('/keuangan/hitung') }}" method="post">
+            <h3>BIAYA PRODUKSI</h3>
+            <form action="{{ url('/keuangan/hitung') }}" method="post">
               @csrf
-              <div class="form-group row">
-                <label for="bahan_baku" class="col-sm-2 col-form-label">Biaya Bahan Baku</label>
-                <div class="col-sm-10">
-                  <input type="number" min="0" class="form-control" id="bahan_baku" name="bahan_baku" placeholder="dalam rupiah (Rp)" required="">
-                </div>
+              <div class="form-group">
+                <label for="bahan_baku">Biaya Bahan Baku</label>
+                <input type="number" min="0" class="form-control" id="bahan_baku" name="bahan_baku" placeholder="dalam rupiah (Rp)" required="">
               </div>
-              <div class="form-group row">
-                <label for="biaya_tambahan" class="col-sm-2 col-form-label">Biaya Tambahan</label>
-                <div class="col-sm-10">
-                  <input type="number" min="0" class="form-control" id="biaya_tambahan" name="biaya_tambahan" placeholder="dalam rupiah (Rp)" required="">
-                </div>
+              <div class="form-group">
+                <label for="biaya_tambahan">Biaya Tambahan</label>
+                <input type="number" min="0" class="form-control" id="biaya_tambahan" name="biaya_tambahan" placeholder="dalam rupiah (Rp)" required="">
               </div>
-              <hr>
-              <h4 style="color: #acc3d2;">HASIL PENJUALAN</h4>
-              <div class="form-group row">
-                <label for="jumlah_tempe" class="col-sm-2 col-form-label">Jumlah Tempe Terjual</label>
-                <div class="col-sm-10">
-                  <input type="number" min="0" class="form-control" id="jumlah_tempe" name="jumlah_tempe" placeholder="dalam rupiah (Rp)" required="">
-                </div>
+              <h3>HASIL PENJUALAN</h3>
+              <div class="form-group">
+                <label for="jumlah_tempe">Jumlah Tempe Terjual</label>
+                <input type="number" min="0" class="form-control" id="jumlah_tempe" name="jumlah_tempe" placeholder="dalam rupiah (Rp)" required="">
               </div>
 
              <button type="submit" class="btn btn-info">Lihat Hasil</button>
@@ -61,7 +54,7 @@
                       </div>
 
                       <div class="modal-footer">
-                         <a href="" onclick="this.href='/cetak-data-pertanggal/'+document.getElementById('tanggal_awal').value + '/' + document.getElementById('tanggal_akhir').value" class="btn btn-info col-md-12">Cetak <i class="fas fa-print"></i> 
+                         <a href="" onclick="this.href='/cetak-data-pertanggal/'+document.getElementById('tanggal_awal').value + '/' + document.getElementById('tanggal_akhir').value" class="btn btn-success col-md-12">Cetak <i class="fas fa-print"></i> 
                        </a>
                       </div>
 

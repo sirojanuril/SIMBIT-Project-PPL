@@ -9,7 +9,6 @@ use App\Metode;
 use App\Pesanan;
 use App\User;
 use Auth;
-use Alert;
 use DB;
 
 class TransaksiController extends Controller
@@ -28,47 +27,38 @@ class TransaksiController extends Controller
     public function data_penjualan(Request $request)
     {
 
-    	$pengguna = Pengguna::where('id', Auth::user()->id)->first();
+    	// $pengguna = Pengguna::where('pengguna_id',$id)->firstOrFail();
+    	// where('id', Auth::user()->id)->first()
 
-        $request->validate([
-                'foto_product'        => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            ]);
+    	$pengguna = Pengguna::where('id', Auth::user()->id)->first();
+        // $metode = Metode::all();
+    	// $transaksi = Transaksi::where('metode_id', $metode->id)->first();
 
 	    $transaksi = new Transaksi();
+        // $transaksi->metode_id       = $metode->id;
 	    $transaksi->stok_kedelai 	= $request->stok_kedelai;
 	    $transaksi->stok_ragi 		= $request->stok_ragi;
 	    $transaksi->harga_kedelai 	= $request->harga_kedelai;
 	    $transaksi->harga_ragi 		= $request->harga_ragi;
-        $transaksi->metode          = $request->metode;
-        $transaksi->rekening        = $request->rekening;
+	    // $transaksi->bni 			= $request->bni;
+	    // $metode->bri 			= $request->bri;
+	    // $metode->bca 			= $request->bca;
+	    // $metode->mandiri 		= $request->mandiri;
+	    // $metode->btpn 			= $request->btpn;
+	    // $metode->ovo 			= $request->ovo;
+	    // $metode->gopay 			= $request->gopay;
+	    // $metode->dana 			= $request->bni;
 
-        if ($request->hasfile('foto_product')) {
-            $product         = $request->file('foto_product');
-            $new_product     = rand().'.'.$product->getClientOriginalExtension();
-            $product->move(public_path('upload/foto_product/'), $new_product);
-            $transaksi->foto_product = $new_product;
-        }
 
-        $pengguna->transaksi()->save($transaksi);
+	    $pengguna->transaksi()->save($transaksi);
 
-        // $metode = new Metode();
-        // $metode->bni             = $request->bni;
-        // $metode->bri             = $request->bri;
-        // $metode->bca             = $request->bca;
-        // $metode->mandiri         = $request->mandiri;
-        // $metode->btpn            = $request->btpn;
-        // $metode->ovo             = $request->ovo;
-        // $metode->gopay           = $request->gopay;
-        // $metode->dana            = $request->dana;
-
-        // $metode->save();
-
-        // $transaksi->metode()->associate($metode);
-        // $transaksi->save();
-
-        return view('transaksi.supplier', compact('transaksi'))->with('success', 'Data Penjualan Berhasil Disimpan');
+        return view('transaksi.supplier', compact('transaksi'));
     }
 
+    // public function metode_pembayaran()
+    // {
+    //     return 'sukses';
+    // }
 
     public function data_penjualan_supplier()
     {
@@ -84,41 +74,36 @@ class TransaksiController extends Controller
 
     public function data_update(Request $request, $id)
     {
-        $product_lama    = $request->hidden_gambar;
-        $product         = $request->file('foto_product');
+        // DB::table('transaksi')->where('id',$request->id)->update([
+        //     'stok_kedelai'       => $request->stok_kedelai,
+        //     'stok_ragi'          => $request->stok_ragi,
+        //     'harga_kedelai'      => $request->harga_kedelai,
+        //     'harga_ragi'         => $request->harga_ragi,
+        // ]);
 
-        if ($product != '') {
-            $request->validate([
-                'foto_product'        => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            ]);
-            $product_baru = $product_lama;
-            $product->move(public_path('upload/foto_product'), $product_baru);
-        }else{
-            $product_baru = $product_lama;
-        }
+        // $transaksi = Transaksi::find($id);
+
+        // $metode = Metode::where('id', $id)->first();
 
         $transaksi = Transaksi::where('id', $request->id)->first();
+        // $transaksi->metode_id       = $metode->id;
         $transaksi->stok_kedelai    = $request->stok_kedelai;
         $transaksi->stok_ragi       = $request->stok_ragi;
         $transaksi->harga_kedelai   = $request->harga_kedelai;
         $transaksi->harga_ragi      = $request->harga_ragi;
-        $transaksi->metode          = $request->metode;
-        $transaksi->rekening        = $request->rekening;
+        // $transaksi->bni             = $request->bni;
         
         
         $transaksi->update();
 
-
-        // alert()->success('Data Berhasil Diubah', 'Success');
-
-        return redirect('/transaksi/data_penjualan')->with('success', 'Data Penjualan Berhasil Diupdate');
+        return redirect('/transaksi/data_penjualan');
 
     }
 
     public function pesanan()
     {
         $transaksi = Transaksi::where('pengguna_id', Auth::user()->id)->first();
-        $pesanan = Pesanan::where('transaksi_id', $transaksi['id'])->latest()->paginate(8);
+        $pesanan = Pesanan::where('transaksi_id', $transaksi->id)->latest()->get();
 
         return view('transaksi.pesanan', compact('pesanan'));
     }
@@ -137,11 +122,8 @@ class TransaksiController extends Controller
 
         $pesanan = Pesanan::find($id);
 
-        // alert()->success('Data Berhasil Diubah', 'Success');
-
-        return redirect('/transaksi/pesanan')->with('success', 'Status pesanan berhasil diverifikasi');
+        return redirect('/transaksi/pesanan');
     }
-
 
 
 
@@ -151,7 +133,7 @@ class TransaksiController extends Controller
     public function mitra()
     {
 
-    	$supplier = Transaksi::latest()->paginate(8);
+    	$supplier = Transaksi::latest()->paginate(10);
     	return view('transaksi.mitra', compact('supplier'));
     }
 
@@ -163,8 +145,8 @@ class TransaksiController extends Controller
 
     public function riwayat()
     {
-    	$transaksi = Transaksi::latest()->paginate(7);
-    	$pesanan = Pesanan::latest()->paginate(7);
+    	$transaksi = Transaksi::latest()->paginate(10);
+    	$pesanan = Pesanan::latest()->paginate(10);
 
     	return view('transaksi.riwayat', compact('pesanan', 'transaksi'));
     }
@@ -197,14 +179,9 @@ class TransaksiController extends Controller
             $transaksi->update();   
         }
 
-        if ($request->kedelai_beli == 0 && $request->ragi_beli == 0) {
-            return redirect('transaksi/beli/'.$id);
-        }
-
-
 	    $transaksi->pesanan()->save($pesanan);
 
-    	return view('/transaksi/upload_bukti', compact('pesanan'))->with('info','Pesanan Berhasil, Silahkan melakukan pembayaran dan upload bukti pembayaran');
+    	return redirect('/transaksi/riwayat');
     }
 
     public function upload_bukti($id)
@@ -217,11 +194,6 @@ class TransaksiController extends Controller
     {
         
         $pesanan = Pesanan::where('id', $request->id)->first();
-
-        $request->validate([
-                'bukti_pembayaran'        => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            ]);
-
         if ($request->hasfile('bukti_pembayaran')) {
             $gambar         = $request->file('bukti_pembayaran');
             $new_gambar     = rand().'.'.$gambar->getClientOriginalExtension();
@@ -231,24 +203,16 @@ class TransaksiController extends Controller
         
         $pesanan->update();
         
-        return redirect('/transaksi/riwayat')->with('success', 'Berhasil Upload Bukti Pembayaran');
+        return redirect('/transaksi/riwayat');
 
-    }
-
-    public function hapus_pesanan(Request $request, $id)
-    {
-
-        $pesanan    = Pesanan::where('id', $id)->first();
-        $transaksi  = Transaksi::where('id', $pesanan->transaksi_id)->first();
-        $transaksi->stok_kedelai    = $pesanan->kedelai_beli + $transaksi->stok_kedelai;
-        $transaksi->stok_ragi       = $pesanan->ragi_beli + $transaksi->stok_ragi;
-        
-            if ($transaksi->update()) {
-                $pesanan->delete();
-        }
-    
-
-        // alert()->error('Pesanan Berhasil Dihapus', 'Hapus');
-        return redirect('/transaksi/riwayat')->with('success', 'Pesanan Berhasil Dihapus');
+        // DB::table('pesanan')->where('id', $request->id)->update([
+        //     if ($request->hasfile('bukti_pembayaran')) {
+        //         $gambar = $request->file('bukti_pembayaran');,
+        //         $new_gambar = rand().'.'.$gambar->getClientOriginalExtension();
+        //         $gambar->move(public_path('upload/bukti_pembayaran/'), $new_gambar);
+        //         'bukti_pembayaran' => $request->$new_gambar;
+        //     }
+        //     // 'bukti_pembayaran'           => $request->bukti_pembayaran,
+        // ]);
     }
 }

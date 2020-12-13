@@ -9,14 +9,7 @@
       <div class="col-12">
         <div class="card">
           <div class="card-header">
-            <!-- untuk membatasi inputan -->
-            <?php
-                $hide  = \App\Transaksi::where('pengguna_id', Auth::user()->id)->first();    
-            ?>
-
-            @if(empty($hide->pengguna_id))
             <a class="btn btn-light" href="/transaksi/supplier" >+</a>
-            @endif
             <a class="btn btn-light" href="{{ url('/transaksi/data_penjualan') }}">Data Penjualan</a>
             <a class="btn btn-light active" href="{{ url('/transaksi/pesanan') }}">Pesanan</a>
 
@@ -51,11 +44,9 @@
                         </td>
                         <td style="width: 10%;">
                           @if(!empty($t->bukti_pembayaran))
-                            <a data-lightbox="image-1" href="{{ url('upload/bukti_pembayaran/') }}/{{ $t->bukti_pembayaran }}">
-                              <img src="{{ url('upload/bukti_pembayaran/') }}/{{ $t->bukti_pembayaran }}" width="20%" class="rounded">
-                            </a>
+                          <img src="{{ url('upload/bukti_pembayaran/') }}/{{ $t->bukti_pembayaran }}" width="20%" class="rounded">
                           @else
-                            <p>-</p>
+                          <p>-</p>
                           @endif
                         </td>
                         <td>
@@ -65,9 +56,6 @@
                       @endforeach
                     </tbody>
                   </table>
-                </div>
-                <div class="d-block col-12 mt-2">
-                  {{ $pesanan->links() }}
                 </div>
           </div>
         </div>

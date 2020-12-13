@@ -76,22 +76,6 @@
   </div><!-- /.container-fluid -->
 </div>
 @else
-<?php
-  $transaksi  = \App\Transaksi::where('pengguna_id', Auth::user()->id)->first();
-  $pesanan = \App\Pesanan::where('transaksi_id', $transaksi['id'])->where('status', "Belum Diverifikasi")->get();
-  $penjualan = \App\Pesanan::where('transaksi_id', $transaksi['id'])->where('status', "Terverifikasi")->get();
-
-  if (!empty($pesanan)) 
-  {
-      $notif         = $pesanan->count();
-  }
-  
-  if (!empty($penjualan))
-  {
-    $notif_penjualan = $penjualan->count();
-  }
-?>
-
 <div class="content">
     <div class="row">
         <div class="col-md-3 col-sm-6 col-xs-12">
@@ -99,7 +83,7 @@
             <span class="info-box-icon bg-blue"><i class="fas fa-tag"></i></span>
             <div class="info-box-content">
               <span class="info-box-text">Penjualan</span>
-              <span class="info-box-number">{{ $notif_penjualan }}</span>
+              <span class="info-box-number">90<small>%</small></span>
             </div>
           </div>
         </div>
@@ -108,7 +92,7 @@
             <span class="info-box-icon bg-red"><i class="fas fa-shopping-basket"></i></span>
             <div class="info-box-content">
               <span class="info-box-text">Pesanan</span>
-              <span class="info-box-number">{{ $notif }}</span>
+              <span class="info-box-number">41,410</span>
             </div>
           </div>
         </div>

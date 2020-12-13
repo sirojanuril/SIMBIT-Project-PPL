@@ -42,7 +42,7 @@
            <a href="{{route('dashboard')}}" class="nav-link ">
              <i class="nav-icon fas fa-columns"></i>
              <p>
-               Dashboard
+               dashboard
              </p>
            </a>
         </li>

@@ -24,7 +24,6 @@
                     <table class="table table-hover text-nowrap" style="text-align: center;">
                       <thead>
                         <tr>
-                          <th>No.</th>
                           <th>Nama Lengkap</th>
                           <th>Tanggal Lahir</th>
                           <th>Jenis Kelamin</th>
@@ -36,7 +35,6 @@
                       <tbody>
                         @foreach($data_pengguna as $pengguna)
                         <tr>
-                          <td>{{$loop->iteration}}</td>
                           <td>{{$pengguna->nama_lengkap}}</td>
                           <td>{{$pengguna->tanggal_lahir}}</td>
                           <td>{{$pengguna->jenis_kelamin}}</td>
@@ -48,9 +46,6 @@
                       </tbody>
                     </table>
                   </div>
-                  <div class="d-block col-12 mt-2">
-                  {{ $data_pengguna->links() }}
-                </div>
                 </div>
 
               </div>

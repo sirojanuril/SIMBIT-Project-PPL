@@ -6,37 +6,52 @@
 <div class="content">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-12 mb-2">
-        <div class="btn-group" role="group" aria-label="Basic example">
-          <button type="button" class="btn btn-light active">Beli</button>
-          <a href="{{ url('/transaksi/riwayat') }}" class="btn btn-light">Riwayat Pemesanan</a>
-        </div>
-      </div>
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+             <a href="#penjualan" class="btn btn-light" data-toggle="tab">Beli</a>
+             <a href="{{ url('/transaksi/riwayat') }}" class="btn btn-light">Riwayat Pemesanan</a>
 
-       @foreach($supplier as $s)
-        <div class="col-sm-3">
-          <div class="shadow-sm p-3 mb-5 bg-white rounded">
-            <div class="card">
-              <img src="{{ url('upload/foto_product') }}/{{ $s->foto_product }}" class="card-img-top" alt="...">
-              <div class="card-body">
-                <p class="card-text">
-                    <h3 style="color: #3949ab; text-align: center;">Toko {{ $s->pengguna->nama_lengkap }}</h3>
-                    <strong> Stok Kedelai : </strong> {{ $s->stok_kedelai }} kg <small>(Rp. {{ number_format($s->harga_kedelai) }} /kg) </small><br>
-                    <strong> Stok Ragi : </strong> {{ $s->stok_ragi }} box <small>(Rp. {{ number_format($s->harga_ragi) }} /kg)</small><br>
-                </p>
-                <div class="card-body text-center">
-                  <a href="{{ url('/transaksi/beli') }}/{{ $s->id }}" class="btn btn-info"><i class="fas fa-shopping-cart"></i> Beli</a>
+              <div class="tab-content">
+                <div class="tab-pane" id="penjualan">
+
+                <div class="card-body table-responsive p-0">
+                  <table class="table table-hover text-nowrap" style="text-align: center;">
+                    <thead>
+                      <tr>
+                        <th>No.</th>
+                        <th>Nama Lengkap</th>
+                        <th>Stok Kedelai</th>
+                        <th>Stok Ragi</th>
+                        <th>Harga Kedelai (Per Kg)</th>
+                        <th>Harga Ragi (Per Kg)</th>
+                        <th> </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @foreach($supplier as $s)
+                      <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $s->pengguna->nama_lengkap }}</td>
+                        <td>{{ $s->stok_kedelai }}</td>
+                        <td>{{ $s->stok_ragi }}</td>
+                        <td>Rp. {{ number_format($s->harga_kedelai) }}</td>
+                        <td>Rp. {{ number_format($s->harga_ragi) }}</td>
+                        <td><a href="{{ url('/transaksi/beli') }}/{{ $s->id }}"><span class="badge badge-success">Beli</span></a></td>
+                      </tr>
+                      @endforeach
+                    </tbody>
+                  </table>
+                </div>
+                <div class="d-block col-12 mt-2">
+                  {{ $supplier->links() }}
                 </div>
               </div>
             </div>
+
           </div>
         </div>
-      @endforeach
-
-      <div class="d-block col-12 mt-2">
-        {{ $supplier->links() }}
       </div>
-      
     </div>
   </div>
 </div>

@@ -7,8 +7,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <html lang="en">
 <head>
   @include('layouts.head')
-  <link rel="stylesheet" href="../dist/css/lightbox.min.css">
-  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -24,7 +22,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
-      @include('layouts.alert')
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
@@ -42,7 +39,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- /.content-header -->
 
     <!-- Main content -->
-    
     @yield('content')
     <!-- /.content -->
   </div>
@@ -66,10 +62,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- ./wrapper -->
 
 <!-- REQUIRED SCRIPTS -->
-<script src="../dist/js/lightbox-plus-jquery.min.js"></script>
-  @include('sweet::alert')
   @include('layouts.script')
   @yield('chart')
-  @yield('metode')
 </body>
 </html>

@@ -20,14 +20,16 @@ class CreateTransaksiTable extends Migration
             $table->integer('stok_ragi');
             $table->integer('harga_kedelai');
             $table->integer('harga_ragi');
-            $table->string('metode');
-            $table->integer('rekening');
-            $table->string('foto_product');
+            $table->bigInteger('metode_id')->unsigned()->nullable();
             $table->timestamps();
         });
 
         Schema::table('transaksi', function (Blueprint $table) {
           $table->foreign('pengguna_id')->references('id')->on('pengguna')->onDelete('cascade')->onUpdate('cascade');
+        });
+
+        Schema::table('transaksi', function (Blueprint $table) {
+          $table->foreign('metode_id')->references('id')->on('metode')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
