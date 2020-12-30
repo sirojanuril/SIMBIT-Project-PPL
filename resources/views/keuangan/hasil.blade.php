@@ -9,30 +9,32 @@
       <div class="col-12">
         <div class="card">
           <div class="card-header">
+
             <div class="form-group">
-              <h4>Keuangan :<strong style="color: red;"> {{ Carbon\Carbon::parse( $keuangan['tanggal'] )->translatedFormat("d F Y") }} </strong></h4>
+              <h5>Keuangan :<strong style="color: #c65f5f;"> {{ Carbon\Carbon::parse( $keuangan['tanggal'] )->translatedFormat("d F Y") }} </strong></h5>
           	</div>
 
-            <table class="table table-borderless">
+            <table class="table" style="text-align: center;">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col">Biaya Produksi</th>
+                  <th scope="col">Hasil Penjualan</th>
+                  <th scope="col">Profit</th>
+                </tr>
+              </thead>
               <tbody>
                 <tr>
-                  <td><strong>Biaya Produksi</strong></td>
-                  <td>: &nbsp&nbsp Rp. {{ number_format($keuangan['biaya_produksi']) }}</td>
-                </tr>
-                <tr>
-                  <td><strong>Hasil Penjualan</strong></td>
-                  <td>: &nbsp&nbsp Rp. {{ number_format($keuangan['hasil_penjualan']) }}</td>
-                </tr>
-                <td><hr></td>
-                <td><hr align="left" style="width: 25%;"></td>
-                <tr>
-                  <td><strong>Hasil Pendapatan</strong></td>
-                  <td>: &nbsp&nbsp Rp. {{ number_format($keuangan['hasil_pendapatan']) }}</td>
+                  <th scope="row"></th>
+                  <td width="250px" height="90px"><h1>Rp. {{ number_format($keuangan['biaya_produksi']) }}</h1></td>
+                  <td><h1>Rp. {{ number_format($keuangan['hasil_penjualan']) }}</h1> </td>
+                  <td><h1>Rp. {{ number_format($keuangan['hasil_pendapatan']) }}</h1></td>
                 </tr>
               </tbody>
             </table>
 
-            <a href="{{ url('keuangan/edit') }}/{{ $keuangan->id }}" class="btn btn-primary">Edit</a>
+            <a href="{{ url('keuangan/edit') }}/{{ $keuangan->id }}" class="btn btn-info">Edit</a>
+            <a href="{{ url('keuangan/hitung') }}" class="btn btn-outline-info">Kembali</a>
           </div>
         </div>
       </div>

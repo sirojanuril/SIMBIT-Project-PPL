@@ -11,7 +11,11 @@
             <div class="card card-primary card-outline">
               <div class="card-body box-profile">
                 <div class="text-center">
-                  <img class="profile-user-img img-fluid img-circle" src="{{auth()->user()->getAvatar()}}" alt="User profile picture">
+                  @if(empty(auth()->user()->avatar))
+                  <img src="{{ url('images/default.jpg') }}" style="width: 100px; height: 100px;" class="profile-user-img img-fluid img-circle" alt="User profile picture">
+                  @else
+                  <img class="profile-user-img img-fluid img-circle" style="width: 100px; height: 100px;" src="{{ url('images/') }}/{{ auth()->user()->avatar }}" alt="User profile picture">
+                  @endif
                 </div>
 
                 <h3 class="profile-username text-center">{{auth()->user()->nama_lengkap}}</h3>
@@ -77,50 +81,72 @@
                   <div class="tab-pane" id="settings">
                     <form class="form-horizontal" action="/akun/{{auth()->user()->id}}/update" method="POST" enctype="multipart/form-data">
                       {{csrf_field()}}
-                      <div class="form-group row">
+                      <div class="form-group row {{$errors->has('nama_lengkap') ? 'has-error' : ''}}">
                         <label for="inputName" class="col-sm-2 col-form-label">Nama Lengkap</label>
                         <div class="col-sm-10">
-                          <input type="text" class="form-control" id="inputName" placeholder="Nama Lengkap"  name="nama_lengkap" value="{{auth()->user()->nama_lengkap}}">
+                          <input type="text" class="form-control" id="inputName" placeholder="Nama Lengkap"  name="nama_lengkap" required="" value="{{auth()->user()->nama_lengkap}}">
+                          @if($errors->has('nama_lengkap'))
+                            <small style="color: red;">{{ $errors->first('nama_lengkap') }}</small>
+                          @endif
                         </div>
                       </div>
-                      <div class="form-group row">
+                      <div class="form-group row {{$errors->has('email') ? 'has-error' : ''}}">
                         <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
                         <div class="col-sm-10">
-                          <input type="email" class="form-control" id="inputEmail" placeholder="Email" name="email" value="{{auth()->user()->email}}">
+                          <input type="email" class="form-control" id="inputEmail" placeholder="Email" name="email" required="" value="{{auth()->user()->email}}">
+                          @if($errors->has('email'))
+                            <small style="color: red;">{{ $errors->first('email') }}</small>
+                          @endif
                         </div>
                       </div>
-                      <div class="form-group row">
+                      <div class="form-group row {{$errors->has('tanggal_lahir') ? 'has-error' : ''}}">
                         <label for="inputName2" class="col-sm-2 col-form-label">Tanggal Lahir</label>
                         <div class="col-sm-10">
-                          <input type="text" class="form-control" id="inputName2" placeholder="Tanggal lahir" name="tanggal_lahir" value="{{auth()->user()->tanggal_lahir}}">
+                          <input type="date" class="form-control" id="inputName2" placeholder="Tanggal lahir" name="tanggal_lahir" required="" value="{{auth()->user()->tanggal_lahir}}">
+                          @if($errors->has('tanggal_lahir'))
+                            <small style="color: red;">{{ $errors->first('tanggal_lahir') }}</small>
+                          @endif
                         </div>
                       </div>
-                      <div class="form-group row">
+                      <div class="form-group row {{$errors->has('alamat') ? 'has-error' : ''}}">
                         <label for="inputExperience" class="col-sm-2 col-form-label">Alamat</label>
                         <div class="col-sm-10">
-                          <textarea class="form-control" id="inputExperience" placeholder="Alamat" name="alamat">{{auth()->user()->alamat}}</textarea>
+                          <textarea class="form-control" id="inputExperience" required="" placeholder="Alamat" name="alamat">{{auth()->user()->alamat}}</textarea>
+                          @if($errors->has('alamat'))
+                            <small style="color: red;">{{ $errors->first('alamat') }}</small>
+                          @endif
                         </div>
                       </div>
-                      <div class="form-group row">
+                      <div class="form-group row {{$errors->has('jenis_kelamin') ? 'has-error' : ''}}">
                         <label for="inputExperience" class="col-sm-2 col-form-label">Jenis Kelamin</label>
                             <div class="col-sm-10">
-                                <select class="form-control" name="jenis_kelamin">
-                                    <option disabled="disabled" selected="selected">Jenis Kelamin</option>
+                                <select class="form-control" name="jenis_kelamin" required="">
+                                    <option value="{{auth()->user()->jenis_kelamin}}">Jenis Kelamin</option>
                                     <option value="Pria">Pria</option>
                                     <option value="Wanita">Wanita</option>
                                 </select>
+                                @if($errors->has('jenis_kelamin'))
+                                  <small style="color: red;">{{ $errors->first('jenis_kelamin') }}</small>
+                                @endif
                             </div>
                         </div>
-                      <div class="form-group row">
+                      <div class="form-group row {{$errors->has('no_hp') ? 'has-error' : ''}}">
                         <label for="inputSkills" class="col-sm-2 col-form-label">No Hp</label>
                         <div class="col-sm-10">
-                          <input type="text" class="form-control" id="inputSkills" placeholder="no hp" value="{{auth()->user()->no_hp}}" name="no_hp">
+                          <input type="number" min="0" class="form-control" id="inputSkills" placeholder="no hp" value="{{auth()->user()->no_hp}}" name="no_hp" required="">
+                          @if($errors->has('no_hp'))
+                            <small style="color: red;">{{ $errors->first('no_hp') }}</small>
+                          @endif
                         </div>
                       </div>
-                      <div class="form-group row">
-                        <label for="inputExperience" class="col-sm-2 col-form-label">Poto Profil</label>
+                      <div class="form-group row {{$errors->has('avatar') ? 'has-error' : ''}}">
+                        <label for="inputExperience" class="col-sm-2 col-form-label">Foto Profil</label>
                         <div class="col-sm-10">
-                          <input type="file" class="form-control" id="inputSkills" placeholder="no hp" name="avatar">
+                          <input type="file" class="form-control" id="inputSkills" placeholder="Foto Profil" name="avatar" value="">
+                          @if($errors->has('avatar'))
+                            <small style="color: red;">{{ $errors->first('avatar') }}</small>
+                          @endif
+                          <input type="hidden" class="form-control-file" id="hidden_gambar" name="hidden_gambar" value="{{auth()->user()->avatar}}">
                         </div>
                       </div>
                       <div class="form-group row">

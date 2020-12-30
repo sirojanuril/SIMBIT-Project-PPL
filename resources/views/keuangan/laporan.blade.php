@@ -1,7 +1,7 @@
 
 @extends('layouts.master')
 
-@section('title','Manajemen Keuangan')
+@section('title','Riwayat Keuangan')
 
 @section('content')
 <div class="content">
@@ -10,28 +10,43 @@
       <div class="col">
         <div class="card">
           <div class="card-header">
-            <h3 align="center">LAPORAN KEUANGAN</h3>
-          <div class="form-group">
-            <table class="static" align="center" rules="all" border="1px" style="width: 95%;">
-              <tr align="center">
-                <th>No.</th>
-                <th>Tanggal/Jam</th>
-                <th>Biaya Produksi</th>
-                <th>Hasil Penjualan</th>
-                <th>Hasil Pendapatan</th>
-              </tr>
-              @foreach($cetak_pertanggal as $cetak)
-              <tr align="center">
-                <td>{{ $loop->iteration }}</td>
-                <td>{{ $cetak->created_at }}</td>
-                <td>{{ $cetak->biaya_produksi }}</td>
-                <td>{{ $cetak->hasil_penjualan }}</td>
-                <td>{{ $cetak->hasil_pendapatan }}</td>
-              </tr>
-              @endforeach
+            <a href="{{ url('/keuangan/riwayat') }}" class="btn btn-info">Kembali</a>
+            <h3 align="center">RIWAYAT KEUANGAN</h3>
+          <div class="table-responsive">
+            <table class="table table-stripped myTable text-center">
+              <thead>
+                <tr>
+                  <th>No.</th>
+                  <th>Tanggal/Jam</th>
+                  <th>Biaya Produksi</th>
+                  <th>Hasil Penjualan</th>
+                  <th>Profit</th>
+                </tr>
+              </thead>
+              <tbody>
+                @foreach($cetak_pertanggal as $cetak)
+                <tr>
+                  <td>{{ $loop->iteration }}</td>
+                  <td>{{ date('d M Y H:i:s', strtotime($cetak->created_at)) }}</td>
+                  <td>Rp. {{ number_format($cetak->biaya_produksi) }}</td>
+                  <td>Rp. {{ number_format($cetak->hasil_penjualan) }}</td>
+                  <td>Rp. {{ number_format($cetak->hasil_pendapatan) }}</td>
+                </tr>
+                @endforeach
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th></th>
+                  <th><b>Total</b></th>
+                  <th><b>Rp. {{ number_format($cetak->filter_biaya_produksi($tanggal_awal, $tanggal_akhir)) }}</b></th>
+                  <th><b>Rp. {{ number_format($cetak->filter_hasil_penjualan($tanggal_awal, $tanggal_akhir)) }}</b></th>
+                  <th><b>Rp. {{ number_format($cetak->filter_hasil_pendapatan($tanggal_awal, $tanggal_akhir)) }}</b></th>
+                </tr>
+              </tfoot>
+              
             </table>
           </div>
-
+          
           </div>
         </div>
       </div>

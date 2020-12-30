@@ -29,6 +29,7 @@ Route::group(['middleware'=> ['auth:user,pengguna','ceklevel:mitra']], function(
   Route::get('/datasupplier','HalamanController@datasupplier')->name('datasupplier');
   Route::get('/produksi', 'ProduksiController@index');
   Route::post('/produksi', 'ProduksiController@output_ragi');
+  Route::get('/produksi/hitung_tempe', 'ProduksiController@hitung_tempe');
   Route::post('/produksi/hasil_tempe', 'ProduksiController@hasil_tempe');
   Route::get('/keuangan/hitung', 'KeuanganController@index');
   Route::post('/keuangan/hitung', 'KeuanganController@hitung');
@@ -36,14 +37,16 @@ Route::group(['middleware'=> ['auth:user,pengguna','ceklevel:mitra']], function(
   Route::get('/keuangan/edit/{id}', 'KeuanganController@edit');
   Route::post('/keuangan/hasil_edit/{id}', 'KeuanganController@hasil_edit');
   Route::get('/keuangan', 'KeuanganController@cetak'); 
+  Route::get('/keuangan/riwayat', 'KeuanganController@riwayat');
   Route::get('/cetak-data-pertanggal/{tanggal_awal}/{tanggal_akhir}', 'KeuanganController@cetak_laporan')->name('cetak-data-pertanggal');
   Route::get('/transaksi/mitra', 'TransaksiController@mitra');
   Route::get('/transaksi/riwayat', 'TransaksiController@riwayat');
   Route::get('/transaksi/beli/{id}', 'TransaksiController@transaksi'); 
-  Route::post('/transaksi/mitra/{id}', 'TransaksiController@beli'); 
   Route::get('/transaksi/upload_bukti/{id}', 'TransaksiController@upload_bukti');
+  Route::post('/transaksi/upload_bukti/{id}', 'TransaksiController@beli'); 
   Route::post('/transaksi/riwayat/{id}', 'TransaksiController@bukti');
-
+  Route::delete('/transaksi/riwayat/{id}', 'TransaksiController@hapus_pesanan');
+  Route::get('/transaksi/detail_toko/{id}', 'TransaksiController@detail_toko');
 });
 
 Route::group(['middleware'=> ['auth:user,pengguna','ceklevel:mitra,supplier']], function(){
@@ -61,4 +64,5 @@ Route::group(['middleware'=> ['auth:user,pengguna','ceklevel:supplier']], functi
   Route::get('/transaksi/pesanan', 'TransaksiController@pesanan');
   Route::get('/transaksi/update_pesanan/{id}', 'TransaksiController@update_pesanan');
   Route::post('/transaksi/pesanan/{id}', 'TransaksiController@update_pesanan_baru');
+  Route::get('/transaksi/detail_pelanggan/{id}', 'TransaksiController@detail_pelanggan');
 });

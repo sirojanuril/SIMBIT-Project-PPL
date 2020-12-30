@@ -15,10 +15,16 @@ class ProduksiController extends Controller
     	return view('produksi.index', compact('produksi'));
     }
 
+    public function hitung_tempe()
+    {
+        $produksi = Produksi::all();
+        return view('produksi.hitung_tempe', compact('produksi'));
+    }
+
     public function output_ragi(Request $request)
     {
         $request->validate([
-            'kedelai'   => 'required',
+            'kedelai'   => 'required|max:10',
         ]);
 
         $produksi = new Produksi;
@@ -27,6 +33,11 @@ class ProduksiController extends Controller
         $produksi->hasil_produksi 			= 1.25*$request->kedelai;
         $produksi->hasil_produksi_bungkus 	= 12*$request->kedelai;
         $produksi->kadaluarsa 				= date("Y-m-d");
+
+        if ($request->kedelai == 0) {
+            return redirect('/produksi')->with('danger', 'Hitung kedelai tidak boleh 0');
+        }
+
         $produksi->save();
         
         return view('/produksi/output_ragi', [
@@ -42,7 +53,10 @@ class ProduksiController extends Controller
     public function hasil_tempe(Request $request)
     {
         $request->validate([
-            'hasil_produksi'   => 'required',
+            'hasil_produksi'   => 'required|max:10',
+        ],[
+            'hasil_produksi.required' => 'hitung tempe harus diisi',
+            'hasil_produksi.max'      => 'hitung tempe tidak boleh melebihi 10 karakter'
         ]);
 
         $produksi = new Produksi;
@@ -51,6 +65,11 @@ class ProduksiController extends Controller
         $produksi->ragi                     = 6*$request->hasil_produksi;
         $produksi->hasil_produksi_bungkus   = 10*$request->hasil_produksi; //10 atau 12
         $produksi->kadaluarsa               = date("Y-m-d");
+
+        if ($request->hasil_produksi == 0) {
+            return redirect('/produksi/hitung_tempe')->with('danger', 'Hitung tempe tidak boleh 0');
+        }
+
         $produksi->save();
 
         return view('/produksi/hasil_tempe', [

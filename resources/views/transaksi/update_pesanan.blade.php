@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title','Riwayat Transaksi')
+@section('title','Verifikasi Pembayaran')
 
 @section('content')
 <div class="content">
@@ -45,13 +45,14 @@
                 </div>
               </div>
             @if(empty($pesanan->bukti_pembayaran) && $pesanan->status == "Belum Diverifikasi")
-              <strong style="color: red;">Pelanggan Belum Mengupload Bukti Pembayaran</strong><br>
-              <a href="/transaksi/supplier" class="btn btn-secondary">Batal</a>
+              <strong style="color: #c65f5f;">Pelanggan Belum Mengupload Bukti Pembayaran</strong><br>
+              <a href="/transaksi/supplier" class="btn btn-info mt-2">Kembali</a>
             @elseif($pesanan->status == "Belum Diverifikasi")
-              <a href="/transaksi/supplier" class="btn btn-secondary">Batal</a>
-              <button type="submit" class="btn btn-primary">Simpan</button>
+              <button type="submit" class="btn btn-info">Simpan</button>
+              <a href="/transaksi/supplier" class="btn btn-outline-info">Kembali</a>
             @else
-              <a href="/transaksi/supplier" class="btn btn-secondary">Batal</a>
+              <strong style="color: #c65f5f;">Anda sudah melakukan konfirmasi pesanan</strong><br>
+              <a href="/transaksi/supplier" class="btn btn-info mt-2">Kembali</a>
             @endif
             
             

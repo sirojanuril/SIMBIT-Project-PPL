@@ -10,35 +10,35 @@
         <div class="card">
           <div class="card-header">
             <br>
-            <table class="table table-borderless" cellspacing="0">
+
+            <table class="table" style="text-align: center;">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col">Ragi yang dibutuhkan</th>
+                  <th scope="col">Tempe yang dihasilkan</th>
+                  <th scope="col">Total bungkus tempe</th>
+                </tr>
+              </thead>
               <tbody>
                 <tr>
-                  <td><strong>Ragi yang dibutuhkan</strong></td>
-                  <td>:</td>
-                  <td>{{ $hasil_ragi }}</td>
-                  <td><strong>gr</strong></td>
-                </tr>
-                <tr>
-                  <td><strong>Menghasilkan Tempe Sekitar</strong></td>
-                  <td>:</td>
-                  <td>{{ $hasil_tempe }}</td>
-                  <td><strong>Kg</strong></td>
-                </tr>
-                <tr>
-                  <td> </td>
-                  <td>:</td>
-                  <td>{{ $hasil_tempe_perbungkus }}</td>
-                  <td><strong>Bungkus</strong></td>
+                  <th scope="row"></th>
+                  <td width="250px" height="90px"><h1>{{ $hasil_ragi }} <strong style="color: #7f8c8d;">gr</strong> </h1></td>
+                  <td><h1>{{ $hasil_tempe }} <strong style="color: #7f8c8d;">Kg</strong></h1> </td>
+                  <td><h1>{{ $hasil_tempe_perbungkus }} <strong style="color: #7f8c8d;">Bungkus</strong></h1></td>
                 </tr>
               </tbody>
             </table>
 
-
-            <div class="form-group">
-              <label>Kadaluarsa Tempe :</label>
-              <p>Tempe akan kadaluarsa sekitar <strong style="color: red;"> {{ Carbon\Carbon::parse($kadaluarsa)->addDays(3)->translatedFormat("d F Y") }} </strong></p>                   
+            <div class="card mt-4" style="width: 18rem;">
+              <div class="card-body">
+                <label>Kadaluarsa Tempe :</label>
+                <strong style="color: #c65f5f;"><h4> {{ Carbon\Carbon::parse($kadaluarsa)->addDays(3)->translatedFormat("d F Y") }} </h4></strong>
+              </div>
             </div>
 
+            <a href="/produksi" class="btn btn-info">Kembali</a>
+            
           </div>
         </div>
       </div>
